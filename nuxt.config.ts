@@ -1,4 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  devtools: { enabled: true }
-})
+    devtools: { enabled: true },
+    /**
+     * NOTE: this is new to Nuxt
+     * le dossier pages est facultatif (optional),
+     * vue-router sera pas compris à moins que je mette la valeur `true` dans ce fichier, comme dessous
+     */
+    pages: true,
+    css: ["@/assets/sass/main.scss"],
+});

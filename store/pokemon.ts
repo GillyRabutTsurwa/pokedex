@@ -34,7 +34,7 @@ export const usePokéStore = defineStore("pokémon", {
 
             const pokémonPromises = pokémonNames.map(async (currentPokémon: any) => {
                 const URL = `https://pokeapi.co/api/v2/pokemon/${currentPokémon.name}`;
-                const response = await fetch(URL);
+                const response: Response = await fetch(URL);
                 console.log(response);
                 const data = await response.json();
                 console.log(data);

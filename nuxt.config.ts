@@ -1,6 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
     devtools: { enabled: true },
+    modules: ["@pinia/nuxt"],
     /**
      * NOTE: this is new to Nuxt
      * le dossier pages est facultatif (optional),

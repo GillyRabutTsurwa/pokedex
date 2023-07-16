@@ -20,6 +20,11 @@ export const usePokéStore = defineStore("pokémon", {
             pokémon: [],
         };
     },
+    // getters: {
+    //     randomImages: (state) => {
+
+    //     }
+    // },
     actions: {
         async fetchPokémon() {
             const limit = 150;
@@ -27,17 +32,17 @@ export const usePokéStore = defineStore("pokémon", {
             const response: Response = await fetch(URL);
             console.log(response);
             const data: PokémonList = await response.json();
-            console.log(data);
+            // console.log(data);
             const pokémonNames = data.results;
 
-            console.log(pokémonNames);
+            // console.log(pokémonNames);
 
             const pokémonPromises = pokémonNames.map(async (currentPokémon: any) => {
                 const URL = `https://pokeapi.co/api/v2/pokemon/${currentPokémon.name}`;
                 const response: Response = await fetch(URL);
-                console.log(response);
+                // console.log(response);
                 const data = await response.json();
-                console.log(data);
+                // console.log(data);
                 return data;
             });
 

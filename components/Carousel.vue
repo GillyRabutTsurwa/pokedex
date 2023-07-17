@@ -44,8 +44,6 @@ onMounted(() => {
     console.log(pokémon.value);
   }, 3000)
 });
-
-
 </script>
         
 <template>
@@ -53,9 +51,9 @@ onMounted(() => {
     backgroundImage: `linear-gradient(
             to right,
             ${palette.primary} 0%,
-                                                      ${palette.primary} 70%,
-                                                      ${palette.secondary} 70%,
-                                                      ${palette.secondary} 100%
+                                                                ${palette.primary} 70%,
+                                                                ${palette.secondary} 70%,
+                                                                ${palette.secondary} 100%
         )` }">
     <h2 :style="{ color: palette.secondary }">{{ pokémon.name }}</h2>
 
@@ -103,7 +101,8 @@ h2 {
   position: absolute;
   font-family: "Lexend Deca", sans-serif;
   top: 25%;
-  left: 10%;
-  font-size: 15rem;
+  left: 5%;
+  font-size: 20rem;
+  text-transform: capitalize;
 }
 </style>

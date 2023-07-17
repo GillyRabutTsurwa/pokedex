@@ -25,3 +25,5 @@ logs
 # Ajouté par moi
 .npmrc
 tsconfig.json
+# Local Netlify folder
+.netlify

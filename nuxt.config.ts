@@ -9,4 +9,6 @@ export default defineNuxtConfig({
      */
     pages: true,
     css: ["@/assets/sass/main.scss"],
+    //TESTING
+    ssr: false,
 });

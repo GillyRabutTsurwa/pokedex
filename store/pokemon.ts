@@ -12,44 +12,40 @@ interface PokémonList {
 
 interface PokémonState {
     pokémon: object[];
+    // randomPokémon: object
 }
 
 export const usePokéStore = defineStore("pokémon", {
     state: (): PokémonState => {
         return {
             pokémon: [],
+            // randomPokémon: {}
         };
     },
     // getters: {
-    //     randomImages: (state) => {
-
-    //     }
+    //     randomPokémon(state) {
+    //     },
     // },
     actions: {
         async fetchPokémon() {
             const limit = 150;
             const URL = `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=0`;
             const response: Response = await fetch(URL);
-            console.log(response);
             const data: PokémonList = await response.json();
-            // console.log(data);
             const pokémonNames = data.results;
-
-            // console.log(pokémonNames);
 
             const pokémonPromises = pokémonNames.map(async (currentPokémon: any) => {
                 const URL = `https://pokeapi.co/api/v2/pokemon/${currentPokémon.name}`;
                 const response: Response = await fetch(URL);
-                // console.log(response);
                 const data = await response.json();
-                // console.log(data);
                 return data;
             });
 
             const pokémon: object[] = await Promise.all(pokémonPromises);
-            console.log(pokémon);
-
             this.pokémon = pokémon;
+        },
+        randomisePokémon() {
+            return this.pokémon[Math.floor(Math.random() * this.pokémon.length)];
         },
     },
 });

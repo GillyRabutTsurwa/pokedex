@@ -1,26 +1,36 @@
 <script setup lang="ts">
 import type { Ref } from 'vue'
-import { ref, onMounted } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { usePokéStore } from "../store/pokemon";
+import ColorThief from "colorthief";
 
 const store = usePokéStore();
-const photoIndex: Ref<number> = ref(0);
 
-store.fetchPokémon();
+const x = ref({});
+
+
+//@ts-ignore
+await store.fetchPokémon();
 
 onMounted(() => {
+  store.randomisePokémon();
+  x.value = store.randomisePokémon();
+  console.log(x.value);
   setInterval(() => {
-    photoIndex.value = Math.floor(Math.random() * (store.pokémon.length - 1));
-    if (photoIndex.value >= store.pokémon.length) photoIndex.value = 0;
-  }, 15000);
+    x.value = store.randomisePokémon();
+    console.log("Fetching random Pokemon");
+    console.log(x.value);
+  }, 3000)
 });
+
+
 </script>
         
 <template>
-  <figure class="container">
-    <img v-for="(currentPokemon, index) in store.pokémon" :key="currentPokemon.id"
-      :src="currentPokemon.sprites.other['official-artwork'].front_default" :class="{ opaque: index === photoIndex }" />
+  <figure v-if="store.pokémon.length !== 0" class="container" ref="figure">
+    <img :src="x.sprites?.other['official-artwork'].front_default" crossorigin="anonymous" ref="img" />
   </figure>
+  <!-- <span>{{ x.sprites.other['official-artwork'].front_default }}</span> -->
 </template>
 
 <style lang="scss" scoped>
@@ -40,7 +50,7 @@ img {
   height: 50rem;
   object-fit: cover;
   /* makes it look nicer */
-  opacity: 0;
+  // opacity: 0;
   transition: opacity 1s ease-in-out;
 
 }

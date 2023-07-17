@@ -49,19 +49,21 @@ onMounted(() => {
 </script>
         
 <template>
-  <figure class="container" :style="{
+  <div class="container" :style="{
     backgroundImage: `linear-gradient(
             to right,
             ${palette.primary} 0%,
-                ${palette.primary} 70%,
-                ${palette.secondary} 70%,
-                ${palette.secondary} 100%
+                                                      ${palette.primary} 70%,
+                                                      ${palette.secondary} 70%,
+                                                      ${palette.secondary} 100%
         )` }">
-    <!-- commented out code ne marche pas. celui sans la point d'interrogation -->
-    <!-- <img :src="pokémon.sprites.other['official-artwork'].front_default" crossorigin="anonymous" ref="img" /> -->
-    <img @load="getColours" :src="pokémon.sprites?.other['official-artwork'].front_default" crossorigin="anonymous"
-      ref="img" />
-  </figure>
+    <h2 :style="{ color: palette.secondary }">{{ pokémon.name }}</h2>
+
+    <figure class="pokemon-img">
+      <img @load="getColours" :src="pokémon.sprites?.other['official-artwork'].front_default" crossorigin="anonymous"
+        ref="img" />
+    </figure>
+  </div>
   <!-- <span>{{ x.sprites.other['official-artwork'].front_default }}</span> -->
 </template>
 
@@ -73,10 +75,10 @@ onMounted(() => {
   /* background-color: forestgreen; */
 }
 
-img {
+.pokemon-img {
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: 70%;
+  left: 70%;
   transform: translate(-50%, -50%);
   width: 50rem;
   height: 50rem;
@@ -85,9 +87,23 @@ img {
   // opacity: 0;
   transition: opacity 1s ease-in-out;
 
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
 }
 
 .opaque {
   opacity: 1;
+}
+
+h2 {
+  position: absolute;
+  font-family: "Lexend Deca", sans-serif;
+  top: 25%;
+  left: 10%;
+  font-size: 15rem;
 }
 </style>

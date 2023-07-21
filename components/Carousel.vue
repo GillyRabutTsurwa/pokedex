@@ -4,17 +4,30 @@ import { ref, reactive, computed, onMounted } from "vue";
 import { usePokéStore } from "../store/pokemon";
 import ColorThief from "colorthief";
 
+interface Palette {
+  primary: string;
+  secondary: string;
+}
+
 const store = usePokéStore();
-const pokémon = ref({});
 const img: Ref<HTMLImageElement | null> = ref(null);
-const palette = reactive({
+const palette: Palette = reactive({
   primary: "",
   secondary: "",
 });
 
 //@ts-ignore
 await store.fetchPokémon();
-const getColours = () => {
+/**
+ * this code may look complex but it's not
+ * i'm just writing a function signature for the function
+ * and writing the function itself in the same place
+ * so instead of doing 
+ * let function: ...function signature code
+ * function declaration code
+ * i'm doing it altogether 
+ */
+const getColours: () => void = (): void => {
   //@ts-ignore
   const colorThief = new ColorThief();
 
@@ -34,35 +47,27 @@ const getColours = () => {
 
 }
 
+const bg = computed(() => {
+  return {
+    backgroundImage: `linear-gradient(to right, ${palette.primary} 0%, ${palette.primary} 70%, ${palette.secondary} 70%, ${palette.secondary} 100%)`
+  }
+})
+
 onMounted(() => {
   store.randomisePokémon();
-  pokémon.value = store.randomisePokémon();
-  console.log(pokémon.value);
   setInterval(() => {
-    pokémon.value = store.randomisePokémon();
-    console.log("Fetching random Pokemon");
-    console.log(pokémon.value);
+    store.randomisePokémon();
   }, 3000)
 });
 </script>
         
 <template>
-  <div class="container" :style="{
-    backgroundImage: `linear-gradient(
-            to right,
-            ${palette.primary} 0%,
-                                                                ${palette.primary} 70%,
-                                                                ${palette.secondary} 70%,
-                                                                ${palette.secondary} 100%
-        )` }">
-    <h2 :style="{ color: palette.secondary }">{{ pokémon.name }}</h2>
-
+  <div class="container" :style="bg">
+    <h2 :style="{ color: palette.secondary }">{{ store.randomPokémon.name }}</h2>
     <figure class="pokemon-img">
-      <img @load="getColours" :src="pokémon.sprites?.other['official-artwork'].front_default" crossorigin="anonymous"
-        ref="img" />
+      <img @load="getColours" :src="store.randomPokémon.img" crossorigin="anonymous" ref="img" />
     </figure>
   </div>
-  <!-- <span>{{ x.sprites.other['official-artwork'].front_default }}</span> -->
 </template>
 
 <style lang="scss" scoped>
@@ -102,7 +107,7 @@ h2 {
   font-family: "Lexend Deca", sans-serif;
   top: 25%;
   left: 5%;
-  font-size: 20rem;
+  font-size: 18rem;
   text-transform: capitalize;
 }
 </style>

@@ -4,31 +4,21 @@ import { ref, reactive, computed, onMounted } from "vue";
 import { usePokéStore } from "../store/pokemon";
 import ColorThief from "colorthief";
 
+const store = usePokéStore();
+await store.fetchPokémon();
+
 interface Palette {
   primary: string;
   secondary: string;
 }
 
-const store = usePokéStore();
-const img: Ref<HTMLImageElement | null> = ref(null);
 const palette: Palette = reactive({
   primary: "",
   secondary: "",
 });
+const img: Ref<HTMLImageElement | null> = ref(null);
 
-//@ts-ignore
-await store.fetchPokémon();
-/**
- * this code may look complex but it's not
- * i'm just writing a function signature for the function
- * and writing the function itself in the same place
- * so instead of doing 
- * let function: ...function signature code
- * function declaration code
- * i'm doing it altogether 
- */
 const getColours: () => void = (): void => {
-  //@ts-ignore
   const colorThief = new ColorThief();
 
   if (img.value?.complete) colorThief.getColor(img.value);
@@ -37,14 +27,14 @@ const getColours: () => void = (): void => {
   const red = colourPalette[0][0];
   const green = colourPalette[0][1];
   const blue = colourPalette[0][2];
+
   const rouge = colourPalette[1][0];
   const vert = colourPalette[1][1];
   const bleu = colourPalette[1][2];
-  // ==========================
+
   palette.primary = `rgb(${red},${green},${blue})`;
   palette.secondary = `rgb(${rouge},${vert},${bleu})`;
   console.log(palette.primary);
-
 }
 
 const bg = computed(() => {
@@ -57,7 +47,7 @@ onMounted(() => {
   store.randomisePokémon();
   setInterval(() => {
     store.randomisePokémon();
-  }, 3000)
+  }, 10000)
 });
 </script>
         

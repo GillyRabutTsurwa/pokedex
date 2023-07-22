@@ -1,16 +1,30 @@
 <script lang="ts" setup>
+const emit = defineEmits(["test"]);
 const props = defineProps({
   pokémon: {
     type: Object,
     required: true
+  },
+  bgColour: {
+    type: String,
+    required: false
+  },
+  bgColour2: {
+    type: String,
+    required: false
   }
-})
+});
+
+const getColours: (event: Event, id: number) => void = (): void => {
+  emit("test", event, props.pokémon.id);
+}
 </script>
 
 <template>
-  <li>
-    <p>{{ props.pokémon.name }}</p>
-    <img :src="props.pokémon.img" :alt="props.pokémon.name">
+  <li :style="{ backgroundColor: props.bgColour }">
+    <p :style="{ color: props.bgColour2 }">{{ props.pokémon.name }}</p>
+    <img @load="getColours($event, props.pokémon.id)" :src="props.pokémon.img" :alt="props.pokémon.name" loading="lazy"
+      crossorigin="anonymous">
   </li>
 </template>
 

@@ -35,7 +35,7 @@ const getColours: () => void = (): void => {
   console.log(palette.primary);
 }
 
-const bg = computed(() => {
+const bg: ComputedRef<{ backgroundImage: string }> = computed(() => {
   return {
     backgroundImage: `linear-gradient(to right, ${palette.primary} 0%, ${palette.primary} 70%, ${palette.secondary} 70%, ${palette.secondary} 100%)`
   }

@@ -1,60 +1,18 @@
 <script lang="ts" setup>
 import { usePokéStore } from "../store/pokemon";
 
-//TESTING
-import ColorThief from "colorthief";
-
-interface Palette {
-  primary: string;
-  secondary: string;
-}
-
-const palette: Palette = reactive({
-  primary: "",
-  secondary: "",
-});
-
+const { tableau, tableau2, getColours } = useColours();
 const store = usePokéStore();
 await store.fetchPokémon();
 
-
-const tableau: Ref<string[]> = ref([]);
-const tableau2: Ref<string[]> = ref([]);
 const testo = (payload: Event, payload2: number) => {
-  // console.log(payload);
-  // console.log(payload2);
-  // console.log(payload.currentTarget);
-
-  //TESTING
-  const getColours: () => void = (): void => {
-    const colorThief = new ColorThief();
-
-    if (payload.currentTarget?.complete) colorThief.getColor(payload.currentTarget);
-    // console.log(colorThief.getPalette(payload.currentTarget));
-    const colourPalette = colorThief.getPalette(payload.currentTarget);
-    const red = colourPalette[0][0];
-    const green = colourPalette[0][1];
-    const blue = colourPalette[0][2];
-    const rouge = colourPalette[1][0];
-    const vert = colourPalette[1][1];
-    const bleu = colourPalette[1][2];
-    // ==========================
-    palette.primary = `rgb(${red},${green},${blue})`;
-    palette.secondary = `rgb(${rouge},${vert},${bleu})`;
-
-    console.log(`rgb(${red},${green},${blue})`);
-    tableau.value.push(`rgb(${red},${green},${blue})`);
-    tableau2.value.push(`rgb(${rouge},${vert},${bleu})`);
-    console.log(tableau.value);
-  }
-  getColours();
+  getColours(payload);
 }
 </script>
 
 <template>
   <div>
     <h4>Pokédex</h4>
-    <span>{{ palette.primary }}</span>
     <ul ref="pokedex">
       <Pokemon @test="testo" v-for="currentPokémon in store.pokémon" :pokémon="currentPokémon"
         :bgColour="tableau[currentPokémon.id]" :bgColour2="tableau2[currentPokémon.id]" :key="currentPokémon.id" />

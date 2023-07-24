@@ -92,10 +92,10 @@ onMounted(() => {
 
 h2 {
   position: absolute;
-  font-family: "Lexend Deca", sans-serif;
   top: 25%;
   left: 5%;
   font-size: 18rem;
   text-transform: capitalize;
+  font-family: $font;
 }
 </style>

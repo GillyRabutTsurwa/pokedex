@@ -31,6 +31,22 @@ const getColours: (event: Event, id: number) => void = (): void => {
 </template>
 
 <style lang="scss" scoped>
+a {
+
+  &,
+  &:link,
+  &:visited {
+    text-decoration: none;
+  }
+
+  &:hover,
+  &:active {
+    li {
+      transform: translateY(-5%);
+    }
+  }
+}
+
 li {
   display: flex;
   justify-content: center;
@@ -39,10 +55,12 @@ li {
   padding: 0 3rem;
   margin: 8rem auto;
   box-shadow: 5px 5px 15px -1px #979797;
+  transition: all 0.25s ease-in;
+
 
   p {
     font-size: 15rem;
-    font-family: "Lexend Deca", sans-serif;
+    font-family: $font;
     text-transform: capitalize;
   }
 }

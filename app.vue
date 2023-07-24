@@ -4,11 +4,4 @@
   </NuxtLayout>
 </template>
 
-<style lang="scss">
-@import "@/assets/sass/main.scss";
-
-#__nuxt {
-  width: 100%;
-  height: 100%;
-}
-</style>
+<style lang="scss"></style>

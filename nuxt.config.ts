@@ -8,6 +8,15 @@ export default defineNuxtConfig({
      * vue-router sera pas compris à moins que je mette la valeur `true` dans ce fichier, comme dessous
      */
     pages: true,
+    vite: {
+        css: {
+            preprocessorOptions: {
+                scss: {
+                    additionalData: `@use "@/assets/sass/_base.scss" as *; @use "@/assets/sass/_variables.scss" as *;`,
+                },
+            },
+        },
+    },
     css: ["@/assets/sass/main.scss"],
     //TESTING
     ssr: false,

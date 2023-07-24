@@ -1,7 +1,5 @@
 <script lang="ts" setup>
 import { usePokéStore } from "../store/pokemon";
-import type { Ref } from 'vue'
-import { ref, reactive, computed } from "vue";
 
 //TESTING
 import ColorThief from "colorthief";
@@ -15,24 +13,20 @@ const palette: Palette = reactive({
   primary: "",
   secondary: "",
 });
-// =============
-
 
 const store = usePokéStore();
-//@ts-ignore
 await store.fetchPokémon();
 
 
-const tableau = ref([]);
-const tableau2 = ref([]);
-const testo = (payload, payload2) => {
+const tableau: Ref<string[]> = ref([]);
+const tableau2: Ref<string[]> = ref([]);
+const testo = (payload: Event, payload2: number) => {
   // console.log(payload);
   // console.log(payload2);
   // console.log(payload.currentTarget);
 
   //TESTING
   const getColours: () => void = (): void => {
-    //@ts-ignore
     const colorThief = new ColorThief();
 
     if (payload.currentTarget?.complete) colorThief.getColor(payload.currentTarget);
@@ -49,9 +43,7 @@ const testo = (payload, payload2) => {
     palette.secondary = `rgb(${rouge},${vert},${bleu})`;
 
     console.log(`rgb(${red},${green},${blue})`);
-    // @ts-ignore
     tableau.value.push(`rgb(${red},${green},${blue})`);
-    // @ts-ignore
     tableau2.value.push(`rgb(${rouge},${vert},${bleu})`);
     console.log(tableau.value);
   }

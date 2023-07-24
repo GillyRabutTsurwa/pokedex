@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { Ref } from 'vue'
-import { ref, reactive, computed, onMounted } from "vue";
 import { usePokéStore } from "../store/pokemon";
 import ColorThief from "colorthief";
 

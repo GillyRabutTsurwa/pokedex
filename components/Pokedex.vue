@@ -6,7 +6,7 @@ const store = usePokéStore();
 await store.fetchPokémon();
 
 const testo = (payload: Event, payload2: number) => {
-  getColours(payload);
+  getColours(payload.currentTarget);
 }
 </script>
 

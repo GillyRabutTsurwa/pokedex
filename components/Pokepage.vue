@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import ColorThief from "colorthief";
-
 // TESTING: copied from store file
 type PokéStripe = {
   front_default: string;
@@ -35,43 +33,17 @@ interface Props {
 }
 
 const props = defineProps<Props>();
+const { palette, getColours } = useColours();
 
-interface Palette {
-  primary: string;
-  secondary: string;
-}
-
-const palette: Palette = reactive({
-  primary: "",
-  secondary: "",
-});
-
-const getColours: () => void = (): void => {
-  const colorThief = new ColorThief();
-
-  if (img.value?.complete) colorThief.getColor(img.value);
-  const colourPalette = colorThief.getPalette(img.value);
-  const red = colourPalette[0][0];
-  const green = colourPalette[0][1];
-  const blue = colourPalette[0][2];
-  const rouge = colourPalette[1][0];
-  const vert = colourPalette[1][1];
-  const bleu = colourPalette[1][2];
-
-  palette.primary = `rgb(${red},${green},${blue})`;
-  palette.secondary = `rgb(${rouge},${vert},${bleu})`;
-};
 
 const img: Ref<HTMLImageElement | null> = ref(null);
-const fetchImageColours = () => {
-  getColours();
-}
+const fetchImageColours = () => getColours(img.value);
+
 const bg = computed(() => {
   return {
     backgroundColor: palette.secondary
   }
 });
-console.log(palette);
 </script>
 
 <template>

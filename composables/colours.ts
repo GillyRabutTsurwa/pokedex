@@ -17,8 +17,8 @@ export const useColours = () => {
     const getColours: (image: any) => void = (imageEl): void => {
         const colorThief = new ColorThief();
 
-        if (imageEl.currentTarget?.complete && imageEl.currentTarget.naturalWidth > 0) colorThief.getColor(imageEl.currentTarget);
-        const colourPalette = colorThief.getPalette(imageEl.currentTarget);
+        if (imageEl.complete) colorThief.getColor(imageEl);
+        const colourPalette = colorThief.getPalette(imageEl);
         const red = colourPalette[0][0];
         const green = colourPalette[0][1];
         const blue = colourPalette[0][2];

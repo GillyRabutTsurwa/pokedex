@@ -1,38 +1,14 @@
 <script setup lang="ts">
 import { usePokéStore } from "../store/pokemon";
-import ColorThief from "colorthief";
 
+const { palette, getColours } = useColours();
 const store = usePokéStore();
 await store.fetchPokémon();
 
-interface Palette {
-  primary: string;
-  secondary: string;
-}
-
-const palette: Palette = reactive({
-  primary: "",
-  secondary: "",
-});
 const img: Ref<HTMLImageElement | null> = ref(null);
 
-const getColours: () => void = (): void => {
-  const colorThief = new ColorThief();
-
-  if (img.value?.complete) colorThief.getColor(img.value);
-  console.log(colorThief.getPalette(img.value));
-  const colourPalette = colorThief.getPalette(img.value);
-  const red = colourPalette[0][0];
-  const green = colourPalette[0][1];
-  const blue = colourPalette[0][2];
-
-  const rouge = colourPalette[1][0];
-  const vert = colourPalette[1][1];
-  const bleu = colourPalette[1][2];
-
-  palette.primary = `rgb(${red},${green},${blue})`;
-  palette.secondary = `rgb(${rouge},${vert},${bleu})`;
-  console.log(palette.primary);
+const getColoursx: () => void = (): void => {
+  getColours(img.value);
 }
 
 const bg: ComputedRef<{ backgroundImage: string }> = computed(() => {
@@ -53,7 +29,7 @@ onMounted(() => {
   <div class="container" :style="bg">
     <h2 :style="{ color: palette.secondary }">{{ store.randomPokémon.name }}</h2>
     <figure class="pokemon-img">
-      <img @load="getColours" :src="store.randomPokémon.img" crossorigin="anonymous" ref="img" />
+      <img @load="getColoursx" :src="store.randomPokémon.img" crossorigin="anonymous" ref="img" />
     </figure>
   </div>
 </template>

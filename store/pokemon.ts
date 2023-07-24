@@ -105,11 +105,12 @@ export const usePokéStore = defineStore("pokémon", {
             this.randomPokémon = this.pokémon[Math.floor(Math.random() * this.pokémon.length)];
             return this.pokémon[Math.floor(Math.random() * this.pokémon.length)];
         },
-        async getSinglePokémon(pokémon: string): Promise<void> {
+        async getSinglePokémon(pokémon: any): Promise<Pokémon> {
             const URL = `https://pokeapi.co/api/v2/pokemon/${pokémon}`;
             const response: Response = await fetch(URL);
-            const data: Pokémon = await response.json();
+            const data: Pokémon = await response.json(); //type is not right
             console.log(data);
+            return data;
         },
     },
 });

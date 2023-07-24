@@ -29,8 +29,8 @@ type PokéStat = {
     };
 };
 
-//NOTE: data from api that i need
-interface Pokémon {
+//NOTE: data from api that i need. does not reflect all data from api
+interface PokéApiData {
     name: string;
     id: number;
     abilities: Array<{ name: string }>;
@@ -40,16 +40,20 @@ interface Pokémon {
     types: Array<{ type: { name: string } }>;
 }
 
-// my state interface
+//NOTE: interface of data whose values will come from an object that has the Pokémon model interface
+// found this solution thanks to this: https://stackoverflow.com/questions/65815269/how-to-use-typescript-types-on-api-response-data/65815636#65815636
+interface Pokémon {
+    name: string;
+    id: number;
+    img: string;
+    types: Array<{ type: { name: string } }>;
+    abilities: Array<{ name: string }>;
+    stats: Array<PokéStat>;
+}
+
+//NOTE: my state interface
 interface PokéState {
-    pokémon: {
-        name: string;
-        id: number;
-        img: string;
-        types: Array<{ type: { name: string } }>;
-        abilities: Array<{ name: string }>;
-        stats: Array<PokéStat>;
-    }[];
+    pokémon: Array<Pokémon>;
     // pretty goot solution for now
     randomPokémon: {
         name?: string;
@@ -75,21 +79,19 @@ export const usePokéStore = defineStore("pokémon", {
             const response: Response = await fetch(URL);
             console.log(response);
             const data: PokéData = await response.json();
-            // console.log(data);
             const pokémonNames = data.results;
 
             const pokémonPromises = pokémonNames.map(async (currentPokémon) => {
                 const URL = `https://pokeapi.co/api/v2/pokemon/${currentPokémon.name}`;
                 const response: Response = await fetch(URL);
-                const data = await response.json();
-                // console.log(data);
+                const data: PokéApiData = await response.json();
                 return data;
             });
 
             console.log(pokémonPromises);
 
-            const pokémonData: Pokémon[] = await Promise.all(pokémonPromises);
-            const pokémon = pokémonData.map((currentPokémon: Pokémon) => {
+            const pokémonData: Array<PokéApiData> = await Promise.all(pokémonPromises);
+            const pokémon: Array<Pokémon> = pokémonData.map((currentPokémon: PokéApiData) => {
                 return {
                     name: currentPokémon.name,
                     id: currentPokémon.id,
@@ -101,16 +103,23 @@ export const usePokéStore = defineStore("pokémon", {
             });
             this.pokémon = pokémon;
         },
-        randomisePokémon(): object {
+        randomisePokémon(): Pokémon {
             this.randomPokémon = this.pokémon[Math.floor(Math.random() * this.pokémon.length)];
             return this.pokémon[Math.floor(Math.random() * this.pokémon.length)];
         },
-        async getSinglePokémon(pokémon: any): Promise<Pokémon> {
-            const URL = `https://pokeapi.co/api/v2/pokemon/${pokémon}`;
+        async getSinglePokémon(singlePokémon: string): Promise<Pokémon> {
+            const URL: string = `https://pokeapi.co/api/v2/pokemon/${singlePokémon}`;
             const response: Response = await fetch(URL);
-            const data: Pokémon = await response.json(); //type is not right
-            console.log(data);
-            return data;
+            const data: PokéApiData = await response.json();
+            const pokémon: Pokémon = {
+                name: data.name,
+                id: data.id,
+                img: data.sprites.other["official-artwork"].front_default,
+                types: data.types,
+                abilities: data.abilities,
+                stats: data.stats,
+            };
+            return pokémon;
         },
     },
 });

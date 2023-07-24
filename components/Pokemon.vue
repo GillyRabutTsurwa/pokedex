@@ -21,7 +21,7 @@ const getColours: (event: Event, id: number) => void = (): void => {
 </script>
 
 <template>
-  <NuxtLink :to="props.pokémon.name">
+  <NuxtLink :to="`/pokemon/${props.pokémon.name}`">
     <li :style="{ backgroundColor: props.bgColour }">
       <p :style="{ color: props.bgColour2 }">{{ props.pokémon.name }}</p>
       <img @load="getColours($event, props.pokémon.id)" :src="props.pokémon.img" :alt="props.pokémon.name" loading="lazy"
